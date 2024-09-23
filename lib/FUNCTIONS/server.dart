@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:http/http.dart' as http;
-import 'package:nothing_bagel_app_template/MODELS/constants.dart';
+import 'package:koukoku_business/MODELS/constants.dart';
 
 Future<dynamic> server_POST(String endpoint, Map<String, dynamic> data) async {
   try {

@@ -64,7 +64,7 @@ class DefaultFirebaseOptions {
     messagingSenderId: '264501829712',
     projectId: 'iic-development',
     storageBucket: 'iic-development.appspot.com',
-    iosBundleId: 'com.iicdev.EDMTeachersApp',
+    iosBundleId: 'com.iicdev.KoukokuBusiness',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(

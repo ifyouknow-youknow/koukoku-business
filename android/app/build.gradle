@@ -27,7 +27,7 @@ if (flutterVersionName == null) {
 }
 
 android {
-    namespace = "com.iicdev.EDMTeachersApp"
+    namespace = "com.iicdev.KoukokuBusiness"
     compileSdk = flutter.compileSdkVersion
     ndkVersion = flutter.ndkVersion
 
@@ -41,10 +41,10 @@ android {
     }
 
     defaultConfig {
-        applicationId = "com.iicdev.EDMTeachersApp"
+        applicationId = "com.iicdev.KoukokuBusiness"
         minSdk = flutter.minSdkVersion
         targetSdk = flutter.targetSdkVersion
-        versionCode = 10
+        versionCode = 1
         versionName = flutterVersionName
         minSdkVersion 23
         ndkVersion "26.1.10909125"

@@ -9,7 +9,7 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.iicdev.EDMTeachersApp</string>
+	<string>com.iicdev.KoukokuBusiness</string>
 	<key>PROJECT_ID</key>
 	<string>iic-development</string>
 	<key>STORAGE_BUCKET</key>
@@ -25,6 +25,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:264501829712:ios:21b411bc5b51db27fb7155</string>
+	<string>1:264501829712:ios:f74462013139a5c2fb7155</string>
 </dict>
 </plist>

@@ -2,8 +2,8 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:nothing_bagel_app_template/COMPONENTS/padding_view.dart';
-import 'package:nothing_bagel_app_template/COMPONENTS/textfield_view.dart';
+import 'package:koukoku_business/COMPONENTS/padding_view.dart';
+import 'package:koukoku_business/COMPONENTS/textfield_view.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:http/http.dart' as http;
 

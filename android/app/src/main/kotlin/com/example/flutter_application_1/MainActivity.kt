@@ -1,4 +1,4 @@
-package com.iicdev.EDMTeachersApp
+package com.iicdev.KoukokuBusiness
 
 import io.flutter.embedding.android.FlutterActivity
 
