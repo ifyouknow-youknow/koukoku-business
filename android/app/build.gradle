@@ -44,7 +44,7 @@ android {
         applicationId = "com.iicdev.KoukokuBusiness"
         minSdk = flutter.minSdkVersion
         targetSdk = flutter.targetSdkVersion
-        versionCode = 3
+        versionCode = 5
         versionName = flutterVersionName
         minSdkVersion 23
         ndkVersion "26.1.10909125"
