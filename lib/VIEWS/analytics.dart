@@ -17,6 +17,7 @@ class Analytics extends StatefulWidget {
 }
 
 class _AnalyticsState extends State<Analytics> {
+  void onHandleScan() async {}
   @override
   Widget build(BuildContext context) {
     return MainView(dm: widget.dm, children: [
@@ -51,10 +52,10 @@ class _AnalyticsState extends State<Analytics> {
                     width: 34,
                     iconColor: Colors.white,
                     onPress: () async {
-                      final file = await function_ScanQRCode(context);
+                      final data = await function_ScanQRCode(context);
                       print(
                           "-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-");
-                      print(file);
+                      print(data);
                     },
                   ),
                 ],

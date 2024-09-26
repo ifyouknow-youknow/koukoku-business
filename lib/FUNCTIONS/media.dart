@@ -70,7 +70,7 @@ Future<File?> function_TakePhoto() async {
   }
 }
 
-Future<File?> function_ScanQRCode(BuildContext context) async {
+Future<String?> function_ScanQRCode(BuildContext context) async {
   String? qrResult;
 
   // Create a Completer to handle asynchronous result
@@ -96,17 +96,8 @@ Future<File?> function_ScanQRCode(BuildContext context) async {
     return null; // Return null if no QR code was scanned
   }
 
-  // Get the application documents directory
-  final directory = await getApplicationDocumentsDirectory();
-  final filePath = '${directory.path}/scanned_qr_code.txt';
-
-  // Create or open the file
-  final file = File(filePath);
-
-  // Write the QR code result to the file
-  await file.writeAsString(result);
-
-  return file;
+  // Return the scanned QR code result
+  return result;
 }
 
 class QRScannerScreen extends StatelessWidget {
