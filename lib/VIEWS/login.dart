@@ -10,7 +10,7 @@ import 'package:koukoku_business/FUNCTIONS/nav.dart';
 import 'package:koukoku_business/MODELS/DATAMASTER/datamaster.dart';
 import 'package:koukoku_business/MODELS/firebase.dart';
 import 'package:koukoku_business/MODELS/screen.dart';
-import 'package:koukoku_business/VIEWS/analytics.dart';
+import 'package:koukoku_business/VIEWS/dashboard.dart';
 
 class Login extends StatefulWidget {
   final DataMaster dm;
