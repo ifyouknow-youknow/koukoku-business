@@ -346,6 +346,167 @@ Future<List<Map<String, dynamic>>> firebase_GetAllDocumentsQueriedLimited(
   }
 }
 
+// GET ALL QUERIED WITH LIMIT WITH PAGINATION
+Future<List<Map<String, dynamic>>>
+    firebase_GetAllDocumentsQueriedLimitedPaginated(
+        String coll,
+        List<Map<String, dynamic>> queries,
+        int limit,
+        DocumentSnapshot? startAfterDocument // Add this parameter
+        ) async {
+  try {
+    Query query = db.collection(coll);
+
+    // Apply the queries
+    for (var queryItem in queries) {
+      String field = queryItem['field'];
+      String operator = queryItem['operator'];
+      dynamic value = queryItem['value'];
+
+      switch (operator) {
+        case '==':
+          query = query.where(field, isEqualTo: value);
+          break;
+        case '!=':
+          query = query.where(field, isNotEqualTo: value);
+          break;
+        case '<':
+          query = query.where(field, isLessThan: value);
+          break;
+        case '<=':
+          query = query.where(field, isLessThanOrEqualTo: value);
+          break;
+        case '>':
+          query = query.where(field, isGreaterThan: value);
+          break;
+        case '>=':
+          query = query.where(field, isGreaterThanOrEqualTo: value);
+          break;
+        case 'array-contains':
+          query = query.where(field, arrayContains: value);
+          break;
+        case 'array-contains-any':
+          query = query.where(field, arrayContainsAny: value);
+          break;
+        case 'in':
+          query = query.where(field, whereIn: value);
+          break;
+        case 'not-in':
+          query = query.where(field, whereNotIn: value);
+          break;
+        default:
+          throw ArgumentError('Invalid operator: $operator');
+      }
+    }
+
+    // Apply the limit
+    query = query.limit(limit);
+
+    // Start after the last document if provided
+    if (startAfterDocument != null) {
+      query = query.startAfterDocument(startAfterDocument);
+    }
+
+    // Fetch the documents
+    QuerySnapshot querySnapshot = await query.get();
+    List<Map<String, dynamic>> allThings = querySnapshot.docs.map((doc) {
+      return {
+        'id': doc.id,
+        ...doc.data() as Map<String, dynamic>,
+        'documentSnapshot': doc
+      };
+    }).toList();
+
+    return allThings;
+  } catch (error) {
+    print('Error: $error');
+    return [];
+  }
+}
+
+// GET ALL QUERIED WITH LIMIT ORDERED WITH PAGINATION
+Future<List<Map<String, dynamic>>>
+    firebase_GetAllDocumentsQueriedOrderedLimitedPaginated(
+        String coll,
+        List<Map<String, dynamic>> queries,
+        String orderByField, // Add this parameter for ordering
+        bool descending, // Add this parameter for order direction
+        int limit,
+        DocumentSnapshot? startAfterDocument // Start after this document
+        ) async {
+  try {
+    Query query = db.collection(coll);
+
+    // Apply the queries
+    for (var queryItem in queries) {
+      String field = queryItem['field'];
+      String operator = queryItem['operator'];
+      dynamic value = queryItem['value'];
+
+      switch (operator) {
+        case '==':
+          query = query.where(field, isEqualTo: value);
+          break;
+        case '!=':
+          query = query.where(field, isNotEqualTo: value);
+          break;
+        case '<':
+          query = query.where(field, isLessThan: value);
+          break;
+        case '<=':
+          query = query.where(field, isLessThanOrEqualTo: value);
+          break;
+        case '>':
+          query = query.where(field, isGreaterThan: value);
+          break;
+        case '>=':
+          query = query.where(field, isGreaterThanOrEqualTo: value);
+          break;
+        case 'array-contains':
+          query = query.where(field, arrayContains: value);
+          break;
+        case 'array-contains-any':
+          query = query.where(field, arrayContainsAny: value);
+          break;
+        case 'in':
+          query = query.where(field, whereIn: value);
+          break;
+        case 'not-in':
+          query = query.where(field, whereNotIn: value);
+          break;
+        default:
+          throw ArgumentError('Invalid operator: $operator');
+      }
+    }
+
+    // Apply ordering
+    query = query.orderBy(orderByField, descending: descending);
+
+    // Apply the limit
+    query = query.limit(limit);
+
+    // Start after the last document if provided (pagination)
+    if (startAfterDocument != null) {
+      query = query.startAfterDocument(startAfterDocument);
+    }
+
+    // Fetch the documents
+    QuerySnapshot querySnapshot = await query.get();
+    List<Map<String, dynamic>> allThings = querySnapshot.docs.map((doc) {
+      return {
+        'id': doc.id,
+        ...doc.data() as Map<String, dynamic>,
+        'documentSnapshot': doc
+      };
+    }).toList();
+
+    return allThings;
+  } catch (error) {
+    print('Error: $error');
+    return [];
+  }
+}
+
 //GET ALL ORDERED
 Future<List<Map<String, dynamic>>> firebase_GetAllDocumentsOrdered(
     String coll, String orderField, String direction) async {

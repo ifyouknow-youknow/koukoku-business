@@ -61,6 +61,7 @@ class _SegmentedViewState extends State<SegmentedView> {
                   color: widget.value == option
                       ? widget.selectedColor
                       : Colors.black,
+                  size: widget.textSize,
                 )),
           );
         }).toList(),

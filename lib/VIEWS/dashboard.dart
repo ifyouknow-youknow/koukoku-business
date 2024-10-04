@@ -14,9 +14,11 @@ import 'package:koukoku_business/FUNCTIONS/colors.dart';
 import 'package:koukoku_business/FUNCTIONS/date.dart';
 import 'package:koukoku_business/FUNCTIONS/media.dart';
 import 'package:koukoku_business/FUNCTIONS/misc.dart';
+import 'package:koukoku_business/FUNCTIONS/nav.dart';
 import 'package:koukoku_business/MODELS/DATAMASTER/datamaster.dart';
 import 'package:koukoku_business/MODELS/constants.dart';
 import 'package:koukoku_business/MODELS/firebase.dart';
+import 'package:koukoku_business/VIEWS/ad.dart';
 
 class Analytics extends StatefulWidget {
   final DataMaster dm;
@@ -193,169 +195,188 @@ class _AnalyticsState extends State<Analytics> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 for (var ad in ads)
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      PaddingView(
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.start,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            AsyncImageView(
-                                              imagePath: ad['imagePath'],
-                                              radius: 15,
-                                              width: 120,
-                                              height: 120,
-                                            ),
-                                            SizedBox(
-                                              width: 15,
-                                            ),
-                                            Expanded(
-                                                child: Column(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.start,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                PillView(
-                                                  backgroundColor:
-                                                      hexToColor("#F6F8FA"),
-                                                  child: Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .spaceBetween,
-                                                    children: [
-                                                      TextView(
-                                                        text: ad['isCoupon']
-                                                            ? 'Coupon'
-                                                            : 'Ad',
-                                                        size: 20,
-                                                        weight: FontWeight.w600,
-                                                      ),
-                                                      TextView(
-                                                        text:
-                                                            '${ad['chosenOption']} size',
-                                                        wrap: true,
-                                                        size: 16,
-                                                        weight: FontWeight.w500,
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ),
-                                                SizedBox(
-                                                  height: 10,
-                                                ),
-                                                PillView(
-                                                  backgroundColor:
-                                                      hexToColor('#E9F1FA'),
-                                                  child: Row(
-                                                    children: [
-                                                      if (ad['seenViews'] !=
-                                                          null)
+                                  ButtonView(
+                                    onPress: () {
+                                      nav_Push(
+                                          context,
+                                          Ad(
+                                            dm: widget.dm,
+                                            ad: ad,
+                                          ), () {
+                                        setState(() {});
+                                      });
+                                    },
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        PaddingView(
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              AsyncImageView(
+                                                imagePath: ad['imagePath'],
+                                                radius: 15,
+                                                width: 120,
+                                                height: 120,
+                                              ),
+                                              SizedBox(
+                                                width: 15,
+                                              ),
+                                              Expanded(
+                                                  child: Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.start,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  PillView(
+                                                    backgroundColor:
+                                                        hexToColor("#F6F8FA"),
+                                                    child: Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .spaceBetween,
+                                                      children: [
                                                         TextView(
-                                                          text: ad['seenViews']
-                                                              .toString(),
-                                                          size: 50,
+                                                          text: ad['isCoupon']
+                                                              ? 'Coupon'
+                                                              : 'Ad',
+                                                          size: 20,
                                                           weight:
                                                               FontWeight.w600,
-                                                          spacing: -1,
                                                         ),
-                                                      SizedBox(
-                                                        width: 10,
-                                                      ),
-                                                      if (ad['seenViews'] ==
-                                                          null)
                                                         TextView(
-                                                          text: '0',
-                                                          size: 50,
+                                                          text:
+                                                              '${ad['chosenOption']} size',
+                                                          wrap: true,
+                                                          size: 16,
                                                           weight:
-                                                              FontWeight.w600,
-                                                          spacing: -1,
+                                                              FontWeight.w500,
                                                         ),
-                                                      TextView(
-                                                        text:
-                                                            '/${ad['views']} views',
-                                                        size: 16,
-                                                        weight: FontWeight.w400,
-                                                        spacing: -1,
-                                                      ),
-                                                    ],
+                                                      ],
+                                                    ),
                                                   ),
-                                                ),
-                                                SizedBox(
-                                                  height: 10,
-                                                ),
-                                                PillView(
-                                                  backgroundColor:
-                                                      hexToColor("#F6F8FA"),
-                                                  child: Row(
-                                                    children: [
-                                                      TextView(
-                                                        text:
-                                                            '${ad['clicks'] != null ? ad['clicks'] : 0}',
-                                                        wrap: true,
-                                                        size: 26,
-                                                        weight: FontWeight.w600,
-                                                      ),
-                                                      SizedBox(
-                                                        width: 10,
-                                                      ),
-                                                      TextView(
-                                                        text: 'clicks',
-                                                        wrap: true,
-                                                        size: 16,
-                                                        weight: FontWeight.w400,
-                                                      ),
-                                                    ],
+                                                  SizedBox(
+                                                    height: 10,
                                                   ),
-                                                ),
-                                                if (ad['isCoupon'])
-                                                  Column(
-                                                    children: [
-                                                      SizedBox(
-                                                        height: 15,
-                                                      ),
-                                                      Row(
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .end,
-                                                        children: [
-                                                          PillView(
-                                                            backgroundColor:
-                                                                hexToColor(
-                                                                    "#FF1F54"),
-                                                            child: TextView(
-                                                              text:
-                                                                  'expires ${formatShortDate(
-                                                                DateTime
-                                                                    .fromMillisecondsSinceEpoch(
-                                                                  ad['date'],
-                                                                ),
-                                                              )}',
-                                                              size: 14,
-                                                              weight: FontWeight
-                                                                  .w600,
-                                                              color:
-                                                                  Colors.white,
-                                                            ),
+                                                  PillView(
+                                                    backgroundColor:
+                                                        hexToColor('#E9F1FA'),
+                                                    child: Row(
+                                                      children: [
+                                                        if (ad['seenViews'] !=
+                                                            null)
+                                                          TextView(
+                                                            text:
+                                                                ad['seenViews']
+                                                                    .toString(),
+                                                            size: 50,
+                                                            weight:
+                                                                FontWeight.w600,
+                                                            spacing: -1,
                                                           ),
-                                                        ],
-                                                      ),
-                                                    ],
-                                                  )
-                                              ],
-                                            ))
-                                          ],
+                                                        SizedBox(
+                                                          width: 10,
+                                                        ),
+                                                        if (ad['seenViews'] ==
+                                                            null)
+                                                          TextView(
+                                                            text: '0',
+                                                            size: 50,
+                                                            weight:
+                                                                FontWeight.w600,
+                                                            spacing: -1,
+                                                          ),
+                                                        TextView(
+                                                          text:
+                                                              '/${ad['views']} views',
+                                                          size: 16,
+                                                          weight:
+                                                              FontWeight.w400,
+                                                          spacing: -1,
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                  SizedBox(
+                                                    height: 10,
+                                                  ),
+                                                  PillView(
+                                                    backgroundColor:
+                                                        hexToColor("#F6F8FA"),
+                                                    child: Row(
+                                                      children: [
+                                                        TextView(
+                                                          text:
+                                                              '${ad['clicks'] != null ? ad['clicks'] : 0}',
+                                                          wrap: true,
+                                                          size: 26,
+                                                          weight:
+                                                              FontWeight.w600,
+                                                        ),
+                                                        SizedBox(
+                                                          width: 10,
+                                                        ),
+                                                        TextView(
+                                                          text: 'clicks',
+                                                          wrap: true,
+                                                          size: 16,
+                                                          weight:
+                                                              FontWeight.w400,
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                  if (ad['isCoupon'])
+                                                    Column(
+                                                      children: [
+                                                        SizedBox(
+                                                          height: 15,
+                                                        ),
+                                                        Row(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .end,
+                                                          children: [
+                                                            PillView(
+                                                              backgroundColor:
+                                                                  hexToColor(
+                                                                      "#FF1F54"),
+                                                              child: TextView(
+                                                                text:
+                                                                    'expires ${formatShortDate(
+                                                                  DateTime
+                                                                      .fromMillisecondsSinceEpoch(
+                                                                    ad['date'],
+                                                                  ),
+                                                                )}',
+                                                                size: 14,
+                                                                weight:
+                                                                    FontWeight
+                                                                        .w600,
+                                                                color: Colors
+                                                                    .white,
+                                                              ),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      ],
+                                                    )
+                                                ],
+                                              ))
+                                            ],
+                                          ),
                                         ),
-                                      ),
-                                      Divider(
-                                        height: 20,
-                                        color: Colors.black12,
-                                      )
-                                    ],
+                                        Divider(
+                                          height: 20,
+                                          color: Colors.black12,
+                                        )
+                                      ],
+                                    ),
                                   )
                               ],
                             );
