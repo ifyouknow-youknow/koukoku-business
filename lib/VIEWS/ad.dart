@@ -122,7 +122,7 @@ class _AdState extends State<Ad> {
             SegmentedView(
               options: ['Scans', 'Analytics'],
               textSize: 16,
-              borderColor: hexToColor("#FF1F54"),
+              borderColor: hexToColor("#4F49FF"),
               value: _option,
               setter: (option) {
                 setState(() {

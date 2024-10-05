@@ -171,7 +171,7 @@ class _AnalyticsState extends State<Analytics> {
                   children: [
                     SegmentedView(
                       options: ['Active', 'Completed'],
-                      borderColor: hexToColor("#FF1F54"),
+                      borderColor: hexToColor("#4F49FF"),
                       value: _status,
                       setter: (status) {
                         setState(() {
@@ -345,7 +345,7 @@ class _AnalyticsState extends State<Analytics> {
                                                             PillView(
                                                               backgroundColor:
                                                                   hexToColor(
-                                                                      "#FF1F54"),
+                                                                      "#4F49FF"),
                                                               child: TextView(
                                                                 text:
                                                                     'expires ${formatShortDate(
