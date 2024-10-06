@@ -96,6 +96,8 @@ flutter:
     - assets/edm-fred.png
     - assets/launcher-icon.png
     - assets/logo.png
+    - assets/app-icon.png
+    - assets/plus.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

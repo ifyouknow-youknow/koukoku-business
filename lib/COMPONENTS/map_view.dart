@@ -16,6 +16,7 @@ class MapView extends StatefulWidget {
   final bool isScrolling;
   final bool isSearchable;
   final void Function(LatLng location)? onMarkerTap;
+  final void Function(String address)? onSearchTap;
   final LatLng? initialArea;
 
   const MapView({
@@ -26,6 +27,7 @@ class MapView extends StatefulWidget {
     this.isScrolling = false,
     this.isSearchable = false,
     this.onMarkerTap,
+    this.onSearchTap,
     this.initialArea,
   }) : super(key: key);
 
@@ -83,9 +85,20 @@ class _MapViewState extends State<MapView> {
         final location = data['results'][0]['geometry']['location'];
         final LatLng newPosition = LatLng(location['lat'], location['lng']);
 
-        _mapController.animateCamera(
-          CameraUpdate.newLatLng(newPosition),
+        // Apply the delta when setting the bounds for the new searched location
+        LatLngBounds bounds = LatLngBounds(
+          southwest: LatLng(newPosition.latitude - widget.delta,
+              newPosition.longitude - widget.delta),
+          northeast: LatLng(newPosition.latitude + widget.delta,
+              newPosition.longitude + widget.delta),
         );
+
+        _mapController.animateCamera(
+          CameraUpdate.newLatLngBounds(bounds, 50),
+        );
+
+        widget.onSearchTap!(address);
+
         setState(() {
           _markers.add(
             Marker(
@@ -143,6 +156,8 @@ class _MapViewState extends State<MapView> {
         if (widget.isSearchable)
           PaddingView(
             paddingTop: 0,
+            paddingLeft: 0,
+            paddingRight: 0,
             paddingBottom: 10,
             child: Row(
               children: [

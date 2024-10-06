@@ -11,6 +11,7 @@ import 'package:koukoku_business/MODELS/DATAMASTER/datamaster.dart';
 import 'package:koukoku_business/MODELS/firebase.dart';
 import 'package:koukoku_business/MODELS/screen.dart';
 import 'package:koukoku_business/VIEWS/dashboard.dart';
+import 'package:koukoku_business/VIEWS/signup.dart';
 
 class Login extends StatefulWidget {
   final DataMaster dm;
@@ -83,6 +84,33 @@ class _LoginState extends State<Login> {
   @override
   Widget build(BuildContext context) {
     return MainView(dm: widget.dm, children: [
+      PaddingView(
+        paddingTop: 0,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            ButtonView(
+                child: Row(
+                  children: [
+                    TextView(
+                      text: 'sign up',
+                      size: 18,
+                    ),
+                    SizedBox(
+                      width: 5,
+                    ),
+                    Icon(
+                      Icons.arrow_forward,
+                      size: 22,
+                    )
+                  ],
+                ),
+                onPress: () {
+                  nav_Push(context, SignUp(dm: widget.dm));
+                }),
+          ],
+        ),
+      ),
       ImageView(
         imagePath: 'assets/logo.png',
         width: getWidth(context) * 0.75,
