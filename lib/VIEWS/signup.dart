@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:koukoku_business/COMPONENTS/button_view.dart';
+import 'package:koukoku_business/COMPONENTS/dropdown_view.dart';
 import 'package:koukoku_business/COMPONENTS/image_view.dart';
 import 'package:koukoku_business/COMPONENTS/main_view.dart';
 import 'package:koukoku_business/COMPONENTS/map_view.dart';
@@ -26,12 +27,12 @@ class SignUp extends StatefulWidget {
 }
 
 class _SignUpState extends State<SignUp> {
+  List<String> _categories = [];
   TextEditingController _businessNameController = TextEditingController();
   TextEditingController _emailController = TextEditingController();
   TextEditingController _contactController = TextEditingController();
   TextEditingController _phoneController = TextEditingController();
-  String address = "";
-  LatLng? location = null;
+  String _category = "";
   TextEditingController _passwordController = TextEditingController();
   TextEditingController _passwordConfirmController = TextEditingController();
 
@@ -41,8 +42,7 @@ class _SignUpState extends State<SignUp> {
         _emailController.text.isEmpty ||
         _contactController.text.isEmpty ||
         _phoneController.text.isEmpty ||
-        address == "" ||
-        location == null ||
+        _category == "" ||
         _passwordController.text.isEmpty ||
         _passwordConfirmController.text.isEmpty) {
       setState(() {
@@ -70,13 +70,8 @@ class _SignUpState extends State<SignUp> {
       final success =
           await firebase_CreateDocument('${appName}_Businesses', user.uid, {
         'email': _emailController.text,
-        'address': address,
         'contactName': _contactController.text,
-        'geohash': Geohash.encode(location!.latitude, location!.longitude),
-        'location': {
-          'latitude': location!.latitude,
-          'longitude': location!.longitude
-        },
+        'category': _category,
         'name': _businessNameController.text,
         'phone': _phoneController.text
       });
@@ -84,7 +79,7 @@ class _SignUpState extends State<SignUp> {
         setState(() {
           widget.dm.setToggleLoading(false);
         });
-        nav_PushAndRemove(context, Analytics(dm: widget.dm));
+        nav_PushAndRemove(context, Dashboard(dm: widget.dm));
       } else {
         setState(() {
           widget.dm.setToggleLoading(false);
@@ -99,6 +94,20 @@ class _SignUpState extends State<SignUp> {
       });
       return;
     }
+  }
+
+  void init() async {
+    final docs = await firebase_GetAllDocumentsOrdered(
+        '${appName}_Categories', 'category', 'asc');
+    setState(() {
+      _categories = docs.map((ting) => ting['category'] as String).toList();
+    });
+  }
+
+  @override
+  void initState() {
+    init();
+    super.initState();
   }
 
   @override
@@ -204,55 +213,16 @@ class _SignUpState extends State<SignUp> {
                     height: 10,
                   ),
                   TextView(
-                    text: 'address',
+                    text: 'category',
                   ),
-                  SizedBox(
-                    height: 5,
-                  ),
-                  RoundedCornersView(
-                    child: MapView(
-                      locations: [],
-                      isSearchable: true,
-                      height: 120,
-                      onMarkerTap: (loc) => {
+                  DropdownView(
+                      backgroundColor: Colors.white,
+                      items: [..._categories],
+                      onChanged: (cat) {
                         setState(() {
-                          location = loc;
-                        })
-                      },
-                      onSearchTap: (add) => {
-                        setState(() {
-                          address = add;
-                        })
-                      },
-                    ),
-                  ),
-                  if (location == null)
-                    TextView(
-                      text:
-                          'Tap the marker once you’ve verified the correct location on the map.',
-                      wrap: true,
-                    )
-                  else
-                    PaddingView(
-                      child: Row(
-                        children: [
-                          Icon(
-                            Icons.where_to_vote,
-                            color: hexToColor('#4D76FF'),
-                            size: 22,
-                          ),
-                          SizedBox(
-                            width: 4,
-                          ),
-                          TextView(
-                            text: address,
-                            wrap: true,
-                            size: 14,
-                            weight: FontWeight.w500,
-                          ),
-                        ],
-                      ),
-                    ),
+                          _category = cat;
+                        });
+                      }),
                   SizedBox(
                     height: 10,
                   ),

@@ -25,15 +25,15 @@ import 'package:koukoku_business/MODELS/screen.dart';
 import 'package:koukoku_business/VIEWS/ad.dart';
 import 'package:koukoku_business/VIEWS/login.dart';
 
-class Analytics extends StatefulWidget {
+class Dashboard extends StatefulWidget {
   final DataMaster dm;
-  const Analytics({super.key, required this.dm});
+  const Dashboard({super.key, required this.dm});
 
   @override
-  State<Analytics> createState() => _AnalyticsState();
+  State<Dashboard> createState() => _DashboardState();
 }
 
-class _AnalyticsState extends State<Analytics> {
+class _DashboardState extends State<Dashboard> {
   String _status = 'Active';
   bool _showOptions = false;
   //
@@ -203,29 +203,37 @@ class _AnalyticsState extends State<Analytics> {
                   widget.dm.setToggleLoading(true);
                   widget.dm.setAlertButtons([]);
                 });
-                final split = data.split('~');
-                final userId = split[0];
-                final adId = split[1];
+                if (data.contains('~')) {
+                  final split = data.split('~');
+                  final userId = split[0];
+                  final adId = split[1];
 
-                final success = await firebase_CreateDocument(
-                    '${appName}_Scans', randomString(25), {
-                  'adId': adId,
-                  'businessId': widget.dm.user['id'],
-                  'date': DateTime.now().millisecondsSinceEpoch,
-                  'userId': userId
-                });
-                if (success) {
-                  setState(() {
-                    widget.dm.setToggleLoading(false);
-                    widget.dm.setToggleAlert(true);
-                    widget.dm.setAlertTitle('Success');
-                    widget.dm.setAlertText(
-                        'The scan has been added to the ad records.');
+                  final success = await firebase_CreateDocument(
+                      '${appName}_Scans', randomString(25), {
+                    'adId': adId,
+                    'businessId': widget.dm.user['id'],
+                    'date': DateTime.now().millisecondsSinceEpoch,
+                    'userId': userId
                   });
+                  if (success) {
+                    setState(() {
+                      widget.dm.setToggleLoading(false);
+                      widget.dm.setToggleAlert(true);
+                      widget.dm.setAlertTitle('Success');
+                      widget.dm.setAlertText(
+                          'The scan has been added to the ad records.');
+                    });
+                  } else {
+                    setState(() {
+                      widget.dm.setToggleLoading(false);
+                      widget.dm.alertSomethingWrong();
+                    });
+                  }
                 } else {
                   setState(() {
-                    widget.dm.setToggleLoading(false);
-                    widget.dm.alertSomethingWrong();
+                    widget.dm.setToggleAlert(true);
+                    widget.dm.setAlertTitle('Invalid Scan');
+                    widget.dm.setAlertText('Invalid QR code was scanned.');
                   });
                 }
               }),
@@ -700,7 +708,7 @@ class _AnalyticsState extends State<Analytics> {
                           },
                           emptyWidget: Center(
                             child: TextView(
-                              text: 'No active campaigns',
+                              text: 'No completed campaigns',
                             ),
                           )),
                       SizedBox(

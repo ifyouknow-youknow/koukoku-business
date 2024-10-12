@@ -46,7 +46,7 @@ class _LoginState extends State<Login> {
         setState(() {
           widget.dm.setToggleLoading(false);
         });
-        nav_PushAndRemove(context, Analytics(dm: widget.dm));
+        nav_PushAndRemove(context, Dashboard(dm: widget.dm));
       }
     } else {
       setState(() {
@@ -65,7 +65,7 @@ class _LoginState extends State<Login> {
       setState(() {
         widget.dm.setToggleLoading(false);
       });
-      nav_PushAndRemove(context, Analytics(dm: widget.dm));
+      nav_PushAndRemove(context, Dashboard(dm: widget.dm));
       return;
     }
     //
